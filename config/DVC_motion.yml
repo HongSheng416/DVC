@@ -1,0 +1,9 @@
+---
+    model_architecture: GoogleFactorizedPrior
+    
+    model_params:
+        in_channels     : 2
+        out_channels    : 2
+        kernel_size     : 3
+        num_filters     : 128
+        num_features    : 128

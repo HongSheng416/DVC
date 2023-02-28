@@ -1,0 +1,70 @@
+{   "phase": {
+    "trainMV"            : 10, 
+    "trainMC"            : 12,
+    "trainRes_2frames"   : 22,
+    "trainAll_2frames"   : 27,
+    "trainRes_fullgop"   : 30,
+    "trainAll_fullgop"   : 33,
+    "trainAll_fullgop_ME": 38
+    },
+
+"trainMV": {
+    "batch_size": 24, 
+    "lr": 1e-4, 
+    "strategy": {"stage": "2frames", "random": 1}, 
+    "mode": "motion", 
+    "frozen_modules": ["ME"],         
+    "loss_on": {"R": "m_rate", "D": "warped_distortion"}
+    },
+
+"trainMC": {
+    "batch_size": 24, 
+    "lr": 1e-4, 
+    "strategy": {"stage": "2frames", "random": 1}, 
+    "mode": "motion", 
+    "frozen_modules": ["ME", "Motion"],     
+    "loss_on": {"R": "m_rate", "D": "mc_distortion"}
+    },
+
+"trainRes_2frames": {
+    "batch_size": 24, 
+    "lr": 1e-4, 
+    "strategy": {"stage": "2frames", "random": 1}, 
+    "mode": "residual", 
+    "frozen_modules": ["ME", "Motion", "MC"], 
+    "loss_on": {"R": "rate", "D": "distortion"}
+    },
+
+"trainAll_2frames": {
+    "batch_size": 12, 
+    "lr": 1e-4,  
+    "strategy": {"stage": "2frames", "random": 1}, 
+    "mode": "residual", 
+    "frozen_modules": ["ME"],         
+    "loss_on": {"R": "rate", "D": "distortion"}
+    },
+
+"trainRes_fullgop": {
+    "batch_size": 3, 
+    "lr": 1e-4, 
+    "strategy": {"stage": "fullgop", "max_num_Pframe": 5}, 
+    "frozen_modules": ["ME", "Motion", "MC"],
+    "loss_on": {"R": "rate", "D": "distortion"}
+    },
+
+"trainAll_fullgop": {
+    "batch_size": 3, 
+    "lr": 1e-4, 
+    "strategy": {"stage": "fullgop", "max_num_Pframe": 5}, 
+    "frozen_modules": ["ME"],
+    "loss_on": {"R": "rate", "D": "distortion"}
+    },
+
+"trainAll_fullgop_ME": {
+    "batch_size": 3, 
+    "lr": 1e-5, 
+    "strategy": {"stage": "fullgop", "max_num_Pframe": 5}, 
+    "frozen_modules": [],
+    "loss_on": {"R": "rate", "D": "distortion"}
+    }
+}
