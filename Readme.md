@@ -4,8 +4,9 @@
 1. git clone this repository and create conda env
     ```
     git clone https://github.com/HongSheng416/DVC.git
-    conda env create -f environment.yml
+    conda create -n DVC python==3.8.8
     conda activate DVC
+    pip install -U pip && pip install -e .
     ```
 2. download [module weight](https://drive.google.com/drive/folders/1y6jSIXGQ6NOrT0Hv8_T5uYrEeaPmRcCB?usp=sharing) to `./models`
 3. In DVC.py, please modify the following `api_key` and `workspace` with your [comet](https://www.comet.com/site/) account information
@@ -15,6 +16,10 @@
     * `DATAROOT`: where train/test datasets are located
     * `LOG`: where you want to store train results
 
+## Dataset
+You can download the following datasets from this [link](https://drive.google.com/drive/folders/1bMOsJTbiJKvcirROAem8Jj5ocGB01Wpv?usp=sharing)
+* Training dataset: Vimeo-90k
+* Testing dataset: UVG, HEVC class B
 
 ## Command Example
 * Train: `python DVC.py --MENet SPy --motion_coder_conf ./config/DVC_motion.yml --residual_coder_conf ./config/DVC_inter.yml --train_conf ./train_cfg/train.json -n 4 --quality_level 6 --gpus 1 --project_name Video_Compression --experiment_name DVC`
@@ -36,7 +41,7 @@ You can specify the training strategy for each epoch by setting the training con
 * `lr`: learning rate.
 * `strategy`: 
     * `stage`: specify `train_2frames` or `train_fullgop`
-    * `random`: randomly select two nearby frames for training or not. (0: False, 1: True)
+    * `random`: randomly select two adjacent frames for training or not. (0: False, 1: True)
 * `mode`: train motion coder (`motion`) or inter coder (`residual`)
 * `frozen_modules`: contain the module names which need to be frozen.
     ![](https://i.imgur.com/nZwC2Fa.png)
@@ -50,15 +55,13 @@ You can specify the training strategy for each epoch by setting the training con
 Example: 
 * `"loss_on": {"R": "rate", "D": "distortion/0.5*mc_distortion"}`
 	* loss function = rate + $\lambda$ * (distortion + 0.5 * mc_distortion)
+
 Note: $\lambda$ is determined by quality level.
 
-
 ## Reference
-### CompressAI
 CompressAI (_compress-ay_) is a PyTorch library and evaluation platform for
 end-to-end compression research.
 
-* [Installation](https://interdigitalinc.github.io/CompressAI/installation.html)
 * [CompressAI API](https://interdigitalinc.github.io/CompressAI/)
 * [Training your own model](https://interdigitalinc.github.io/CompressAI/tutorials/tutorial_train.html)
 * [List of available models (model zoo)](https://interdigitalinc.github.io/CompressAI/zoo.html)
