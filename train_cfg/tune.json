@@ -1,0 +1,21 @@
+{   "phase": {
+    "trainAll_fullgop"   : 1,
+    "trainAll_fullgop_ME": 3
+    },
+
+"trainAll_fullgop": {
+    "batch_size": 3, 
+    "lr": 1e-4, 
+    "strategy": {"stage": "fullgop", "max_num_Pframe": 5}, 
+    "frozen_modules": ["ME"],
+    "loss_on": {"R": "rate", "D": "distortion"}
+    },
+
+"trainAll_fullgop_ME": {
+    "batch_size": 3, 
+    "lr": 1e-5, 
+    "strategy": {"stage": "fullgop", "max_num_Pframe": 5}, 
+    "frozen_modules": [],
+    "loss_on": {"R": "rate", "D": "distortion"}
+    }
+}
