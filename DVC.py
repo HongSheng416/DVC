@@ -63,8 +63,8 @@ from util.vision import PlotFlow, PlotHeatMap, save_image
 plot_flow = PlotFlow().cuda()
 plot_bitalloc = PlotHeatMap("RB").cuda()
 
-lmda = {1:   64, 2:  128, 3:  256, 4:  512, 
-        5: 1024, 6: 2048, 7: 4096, 8: 8192}
+lmda = {1: 0.0018, 2: 0.0035, 3: 0.0067, 4: 0.0130, 
+        5: 0.0250, 6: 0.0483, 7: 0.0932, 8: 0.1800}
 
 class CustomDataParallel(nn.DataParallel):
     """Custom DataParallel to access the module methods."""
@@ -241,7 +241,7 @@ class Pframe(CompressesModel):
             
             distortion += coefficient * result['train/'+term]
 
-        loss = rate + lmda[self.args.quality_level] * distortion
+        loss = rate + 255**2 * lmda[self.args.quality_level] * distortion
 
         result.update({'train/loss': loss})
 
@@ -297,7 +297,7 @@ class Pframe(CompressesModel):
                 
                 distortion += coefficient * result['train/'+term]
 
-            loss = rate + lmda[self.args.quality_level] * distortion
+            loss = rate + 255**2 * lmda[self.args.quality_level] * distortion
             total_loss += loss
 
             result.update({'train/loss': loss})
@@ -391,7 +391,7 @@ class Pframe(CompressesModel):
 
                     mse = self.criterion(rec_frame[i], coding_frame[i]).mean().cpu().item()
                     psnr = mse2psnr(mse)
-                    loss = rate + lmda[self.args.quality_level] * mse
+                    loss = rate + 255**2 * lmda[self.args.quality_level] * mse
 
                     rate_list[i].append(rate)
                     psnr_list[i].append(psnr)
@@ -418,7 +418,7 @@ class Pframe(CompressesModel):
                     psnr = mse2psnr(mse)
                     mc_mse = self.criterion(mc_frame[i], coding_frame[i]).mean().item()
                     mc_psnr = mse2psnr(mc_mse)
-                    loss = rate + lmda[self.args.quality_level] * mse 
+                    loss = rate + 255**2 * lmda[self.args.quality_level] * mse 
 
                     rate_list[i].append(rate)
                     psnr_list[i].append(psnr)
@@ -816,12 +816,12 @@ def main(argv):
     if args.save_dir is None:
         args.save_dir = os.path.join(save_root, args.project_name, args.experiment_name + '-' + str(args.quality_level))
 
-    exp = Experiment if args.restore != 'resume' else ExistingExperiment
+    exp = Experiment 
     experiment = exp(
         api_key="sriOLxa6VvcxCPgGaKaaxAk0p",
         project_name=args.project_name,
         workspace="hongsheng416",
-        experiment_key = None if args.restore != 'resume' else args.restore_exp_key,
+        experiment_key = None,
         disabled=args.debug or args.test
     )
     experiment.set_name(f'{args.experiment_name}-{args.quality_level}')
