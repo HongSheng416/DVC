@@ -113,7 +113,7 @@ class Pframe(CompressesModel):
         self.args = args
         self.criterion = nn.MSELoss(reduction='none') 
 
-        self.if_model = _load_model("mbt2018", "mse", args.quality_level, pretrained=True)
+        self.if_model = _load_model("bmshj2018-hyperprior", "mse", args.quality_level, pretrained=True)
         self.if_model.eval()
 
         self.MENet = SPyNet(trainable=False)
@@ -818,9 +818,9 @@ def main(argv):
 
     exp = Experiment 
     experiment = exp(
-        api_key="sriOLxa6VvcxCPgGaKaaxAk0p",
+        api_key="xxx",
         project_name=args.project_name,
-        workspace="hongsheng416",
+        workspace="xxx",
         experiment_key = None,
         disabled=args.debug or args.test
     )
@@ -877,6 +877,8 @@ def main(argv):
             k.pop(1)
             if k[1] == 'entropy_bottleneck'and k[2] in ['_offset', '_quantized_cdf', '_cdf_length']:
                     continue
+            elif k[0] == 'if_model':
+                continue
             ckpt['.'.join(k)] = v    
 
         model.load_state_dict(ckpt, strict=False)
