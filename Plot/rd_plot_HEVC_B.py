@@ -242,6 +242,22 @@ x265_veryslow.add_points([
     [31.12276, 0.93551, 0.04187],
 ])
 
+DVC_paper = RD_Curve()
+DVC_paper.add_points([
+    [31.84615, None, 0.07647],
+    [33.02564, None, 0.11569],
+    [34.11538, None, 0.16569],
+    [35.10256, None, 0.29412]
+])
+
+DVC_reproduce = RD_Curve()
+DVC_reproduce.add_points([
+    [34.9415, None, 0.2719],
+    [34.0247, None, 0.1615],
+    [33.2042, None, 0.1142],
+    [31.6465, None, 0.0685]
+])
+
 def main_plot(mode="PSNR"):
     if mode == "PSNR":
         fig_plot = RD_Plot("HEVC_B", metric="PSNR",
@@ -251,6 +267,10 @@ def main_plot(mode="PSNR"):
                            print_style='linear')
         fig_plot.add_curve(x265_veryslow, 
                            marker='H', label='x265 (veryslow)', style='-', color='#1f1704')
+        fig_plot.add_curve(DVC_paper, 
+                           marker='H', label='DVC (paper)', style='-', color='#160ff5')
+        fig_plot.add_curve(DVC_reproduce, 
+                           marker='H', label='DVC (reproduce)', style='-', color='#fa0f26')
         fig_plot.save_figure(fig_dir+"RD_HEVC_B_PSNR.png")
 
 if __name__ == "__main__":

@@ -242,15 +242,35 @@ x265_veryslow.add_points([
     [33.30980, 0.93702, 0.02514],
 ])
 
+DVC_paper = RD_Curve()
+DVC_paper.add_points([
+    [34.55952, None, 0.05971],
+    [35.52381, None, 0.07698],
+    [36.70238, None, 0.10863],
+    [37.70238, None, 0.18489]
+])
+
+DVC_reproduce = RD_Curve()
+DVC_reproduce.add_points([
+    [37.6941, None, 0.1794],
+    [36.7289, None, 0.1103],
+    [35.9301, None, 0.0822],
+    [34.3303, None, 0.0523]
+])
+
 def main_plot(mode="PSNR"):
     if mode == "PSNR":
         fig_plot = RD_Plot("UVG", metric="PSNR",
                            anchor=x265_veryslow, fontsize=22,
                            interp='quadratic', styles=['-', '--', '-.', ":"],
-                           xlim=[0, 0.18], ylim=[33, 39],
+                           xlim=[0, 0.2], ylim=[33, 39],
                            print_style='linear')
         fig_plot.add_curve(x265_veryslow, 
                            marker='H', label='x265 (veryslow)', style='-', color='#1f1704')
+        fig_plot.add_curve(DVC_paper, 
+                           marker='H', label='DVC (paper)', style='-', color='#160ff5')
+        fig_plot.add_curve(DVC_reproduce, 
+                           marker='H', label='DVC (reproduce)', style='-', color='#fa0f26')
         fig_plot.save_figure(fig_dir+"RD_UVG_PSNR.png")
     
 if __name__ == "__main__":

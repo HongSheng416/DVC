@@ -1,6 +1,6 @@
 {   "phase": {
-    "trainAll_fullgop"   : 1,
-    "trainAll_fullgop_ME": 3
+    "trainAll_fullgop"   : 5,
+    "trainAll_fullgop_ME": 10
     },
 
 "trainAll_fullgop": {
