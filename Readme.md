@@ -23,11 +23,16 @@ You can download the following datasets from this [link](https://drive.google.co
 
 ## Command Example
 * Train: `python DVC.py --MENet SPy --motion_coder_conf ./config/DVC_motion.yml --residual_coder_conf ./config/DVC_inter.yml --train_conf ./train_cfg/train.json -n 4 --quality_level 6 --gpus 1 --project_name Video_Compression --experiment_name DVC`
+
 * Test: `python DVC.py --MENet SPy --motion_coder_conf ./config/DVC_motion.yml  --residual_coder_conf ./config/DVC_inter.yml -n 4 --quality_level 6 --gpus 1 --project_name Video_Compression --experiment_name DVC --restore load --restore_exp_key xxx --restore_exp_epoch xxx --gop 12 --test`
+* Test Protocol: 
+    * intra period: 10 (HEVC-B) /12 (UVG) (`--gop 12`)
+    * full sequence
+
 
 Note: 
-1. `./config` contain some model configuration
-2. `./train_cfg` contain some training procedure
+1. `./config` contain model configurations
+2. `./train_cfg` contain training procedures
 3. You can set `--restore load` to load the pre-train weight and use `--restore_exp_key` and `--restore_exp_epoch` to select the specific model.
 
 ## How to set training configuration?
@@ -46,8 +51,8 @@ You can specify the training strategy for each epoch by setting the training con
 * `frozen_modules`: contain the module names which need to be frozen.
     ![](https://i.imgur.com/nZwC2Fa.png)
 * `loss_on`: use to specify the loss function
-    * `R`: specify rate loss
-    * `D`: specify distortion loss
+    * `R`: rate loss
+    * `D`: distortion loss
 
 ### How to set loss function?
 ![](https://i.imgur.com/VStvaJC.png)
@@ -63,5 +68,3 @@ CompressAI (_compress-ay_) is a PyTorch library and evaluation platform for
 end-to-end compression research.
 
 * [CompressAI API](https://interdigitalinc.github.io/CompressAI/)
-* [Training your own model](https://interdigitalinc.github.io/CompressAI/tutorials/tutorial_train.html)
-* [List of available models (model zoo)](https://interdigitalinc.github.io/CompressAI/zoo.html)
