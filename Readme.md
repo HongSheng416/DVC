@@ -69,6 +69,7 @@ You can specify the training strategy for each epoch by setting the training con
     * `random`: randomly select two adjacent frames for training or not. (0: False, 1: True)
 * `mode`: train motion coder (`motion`) or inter coder (`residual`)
 * `frozen_modules`: contain the module names which need to be frozen.
+
     ![](https://i.imgur.com/nZwC2Fa.png)
 * `loss_on`: use to specify the loss function
     * `R`: rate loss
